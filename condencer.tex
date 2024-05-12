@@ -1,0 +1,125 @@
+\documentclass[10pt,dvipdfmx]{article}[b5paper]
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable,theorems,skins}
+\usepackage{geometry}
+\usepackage{fancyhdr} % ヘッダーとフッターをカスタマイズするためのパッケージ
+\usepackage{graphicx}
+
+
+\definecolor{safecolor}{rgb}{0.2, 0.4, 0.8}
+
+\newtcolorbox{kousiki}[2][]%%%〇〇の定理
+{enhanced,%%%tikzを用いた記法の処理
+left=22pt,right=22pt,%%%box内左右の余白
+fonttitle=\gtfamily\bfseries\large,%%%タイトルのフォント指定
+coltitle=white,%%%タイトルの文字の色
+colbacktitle=blue!50!black,%%%タイトルの背景の色
+attach boxed title to top left={},%%%タイトルを左寄せに、少し微調整
+boxed title style={skin=enhancedfirst jigsaw,arc=1mm,bottom=0mm,boxrule=0mm},%%%タイトルボックスの装飾
+boxrule=0.5pt,%%%枠線の太さ
+colback=safecolor!5!,%%%本文の背景色
+colframe=safecolor,%%%本文の枠の色
+sharp corners=northwest,%%%左上の角の調整 
+drop fuzzy shadow,%%%影をつける
+breakable,%%%ページマタギOK
+title=\vspace{3mm}#2,%%%タイトルは直接入力
+arc=1mm,%弧
+fontupper=\gtfamily,%本文のフォントを太く（数式は除く）
+#1}%
+
+
+\geometry{top=25mm, headheight=15mm} % ヘッダーに十分なスペースを確保
+
+\pagestyle{fancy}
+\fancyhf{} % 既存のヘッダーとフッターをクリア
+\fancyhead[C]{コンデンサーの過渡現象(山岸用)} % ヘッダーの中央にテキストを配置
+\renewcommand{\headrulewidth}{2pt} % ヘッダーの下の線の太さ
+\renewcommand{\footrulewidth}{0pt} % フッターの線は表示しない
+
+\begin{document}
+\includegraphics[width=13cm]{RC直列回路-600x352.jpg}
+
+上図は抵抗$R$[Ω]、コンデンサ$C$[F]、直流電源$E$[V]、スイッチSWからなるRC直列回路です。
+
+\begin{kousiki}{条件}
+\vspace{2mm}
+ \begin{enumerate}
+        \item スイッチSWをオンにした時の時間$t$を$t=0$[s]とする。
+\vspace{2mm}
+        \item スイッチSWをオンにする前にコンデンサ$C$に蓄えられている電荷$q(t)$はゼロ。\\\[q(0)=0\]である。
+    \end{enumerate}
+\end{kousiki}
+スイッチSWをオンにすると、過渡現象が生じる。
+\begin{tcolorbox}
+ \begin{enumerate}
+        \item 電流$i(t)$が流れて、コンデンサ$C$に蓄えられる電荷$q(t)$が増加し、電圧$Vc(t)$が上昇する。
+\vspace{2mm}
+        \item 十分に時間がたった時、電流$i(t)$が流れなくなる(0[A])。また、その時のコンデンサは開放されている状態となり、電圧$Vc(t)$が電源電圧$E$と等しくなる。
+\end{enumerate}
+\end{tcolorbox}
+この時、電流$i(t)$が一定値0[A]となった状態を「定常状態」、それ以前の状態を「過渡状態」といい、その過程で見られる現象を「過渡現象」とよぶ。
+
+RC直列回路に流れる電流$i(t)$とコンデンサに蓄えられる電荷$Q(t)$の関係は次式。
+\begin{tcolorbox}
+\[i(t)=\dfrac{dq(t)}{dt}\]
+\end{tcolorbox}
+また、RC直列回路にキルヒホッフ第二法則(電圧則)を用いると以下のようになる。
+\begin{tcolorbox}
+\[E =v_r(t)+v_c(t)\]
+\end{tcolorbox}
+また
+\begin{align*}
+ &v_r(t)-R_i(t)=R\dfrac{dq(t)}{dt}\\
+ &v_c(t) =\dfrac{1}{C}\int i(t)dt =\dfrac{1}{C}\int (\dfrac{dq(t)}{dt})dt =\dfrac{q(t)}{C}\\
+\text{を代入すると、}\\
+E& = v_R(t) + v_C(t)\\
+&=R\dfrac{dq(t)}{dt} +\dfrac{q(t)}{C}
+\text{を得る。}\\
+R\dfrac{dq(t)}{dt} &= \dfrac{CE-q(t)}{C}\\
+\Leftrightarrow
+\dfrac{dq(t)}{dt} &=\dfrac{CE-q(t)}{CR}\\
+\dfrac{1}{CE-q(t)}\dfrac{dq(t)}{dt} &=\dfrac{1}{CR}\\
+\dfrac{1}{CE-q(t)}dq(t) &= \dfrac{1}{CR}dt\\
+\int\dfrac{1}{CE-q(t)}dq(t) &= \int\dfrac{1}{CR}dt\\
+\vspace{2mm}
+k=CE-q(t)\quad(k\geqq0) \text{と置く。}\\
+\text{左辺}&=\int\dfrac{1}{CE-q(t)}dq(t)\\
+&=-\int\dfrac{1}{k}dk\\
+&=\log_e k +A\\
+&=-\log_e(CE-q(t)) +A \quad\text{(Aは積分定数。)}\\
+\vspace{2mm}
+\text{右辺}&=\int\dfrac{1}{CR}dt\\
+&=\dfrac{1}{CR}\int dt\\
+&=\dfrac{1}{CR}t+B \quad\text{(Bは積分定数。)}\\
+-\log_e(CE-q(t)) +A &= \dfrac{1}{CR}t +B\\
+A-B &=D\text{と置く。}\\
+\log_e(CE-q(t)) &= -\dfrac{1}{CR}t +D\\
+\Leftrightarrow
+CE-q(t) &=e^{-\frac{1}{CR}t+D}\\
+&=e^{-\frac{1}{CR}t} \times e^D\\
+\Leftrightarrow
+q(t) &= CE - e^{-\frac{1}{CR}t} \times e^D\\
+& \quad\text{ここでDを考える。$t=0$のとき、電荷$q(0)=0$であるので}\\
+q(0) &= CE - e^{-\frac{1}{RC}\times 0} \times e^D\\
+\Leftrightarrow 0 &= CE - e^0 \times e^D\\
+&= CE- 1 \times e^D\\
+\therefore e^D &= CE\\
+q(t) &= CE - e^{-\frac{1}{CR} t} \times e^D\\
+&= CE - e^{-\frac{1}{CR} t} \times CE\\
+&= CE (1-e^{-\frac{1}{CR} t})\\
+\end{align*}
+\begin{align*}
+\text{また、}i(t)\text{を考えると}\\
+i(t) &= CE \frac{d}{dt} \left(1 - e^{-\frac{1}{CR} t}\right) \\
+&= CE \left(\frac{d}{dt} 1 - \frac{d}{dt} e^{-\frac{1}{CR} t}\right) \\
+&= CE \left(0 - \left(-\frac{1}{CR} e^{-\frac{1}{CR} t}\right)\right) \\
+&= CE \left(\frac{1}{CR} e^{-\frac{1}{CR} t}\right) \\
+&= \frac{E}{R} e^{-\frac{1}{CR} t}
+\end{align*}
+% 計算スペース
+\end{document}
