@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PDF.js Viewer</title>
+  <link rel="stylesheet" href="https://mozilla.github.io/pdf.js/web/viewer.css"/>
+  <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+</head>
+<body>
+  <div>
+    <canvas id="pdf-canvas"></canvas>
+  </div>
+  <script>
+    const url = '2024_2.pdf'; // PDFファイルのパス
+
+    const loadingTask = pdfjsLib.getDocument(url);
+    loadingTask.promise.then(pdf => {
+      pdf.getPage(1).then(page => {
+        const scale = 1.5;
+        const viewport = page.getViewport({ scale: scale });
+
+        const canvas = document.getElementById('pdf-canvas');
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        const renderContext = {
+          canvasContext: context,
+          viewport: viewport
+        };
+        const renderTask = page.render(renderContext);
+        renderTask.promise.then(() => {
+          console.log('Page rendered');
+        });
+      });
+    }).catch(error => {
+      console.error(error);
+    });
+  </script>
+</body>
+</html>
