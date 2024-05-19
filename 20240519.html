@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Embed Example</title>
+    <style>
+        #pdf-container {
+            width: 100%;
+            height: 600px;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>PDF Embed Example for 0518</h1>
+    <div id="pdf-container">
+        <canvas id="pdf-render"></canvas>
+    </div>
+    <script src="pdf.js"></script>
+    <script>
+        const url = '2024_2.pdf';
+        
+        // Asynchronously download PDF
+        pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
+            const pdfDoc = pdfDoc_;
+            const pageNum = 1;
+            
+            // Fetch the first page
+            pdfDoc.getPage(pageNum).then(page => {
+                const scale = 1.5;
+                const viewport = page.getViewport({ scale });
+                
+                // Prepare canvas using PDF page dimensions
+                const canvas = document.getElementById('pdf-render');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                // Render PDF page into canvas context
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                page.render(renderContext);
+            });
+        });
+    </script>
+</body>
+</html>
